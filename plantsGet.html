@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plants Data</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Plants Data</h2>
+
+    <table id="plantTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Species</th>
+                <th>Watering Schedule</th>
+                <th>Sunlight Requirement</th>
+                <!-- Add more table headers based on your Plants class properties -->
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be populated here dynamically using JavaScript -->
+        </tbody>
+    </table>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('http://localhost:8080/plants/getplants') // Replace with your API endpoint
+                .then(response => response.json())
+                .then(data => {
+                    populateTable(data);
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        });
+
+        function populateTable(data) {
+            const tableBody = document.querySelector('#plantTable tbody');
+
+            data.forEach(plant => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${plant.plant_id}</td>
+                    <td>${plant.plantName}</td>
+                    <td>${plant.plantSpecie}</td>
+                    <td>${plant.watering_Schedule}</td>
+                    <td>${plant.sunlight_Requirement}</td>
+                    <!-- Add more <td> elements based on your Plants class properties -->
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+    </script>
+
+</body>
+
+</html>

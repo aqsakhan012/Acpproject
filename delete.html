@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Plant</title>
+    <script>
+        function deletePlant() {
+            var plantId = document.getElementById("plantId").value;
+
+            fetch('http://localhost:8080/plants/deleteplants/' + plantId, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Plant deleted successfully');
+                    // Optionally, you can redirect to another page or perform other actions.
+                } else {
+                    console.error('Failed to delete plant');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</head>
+<body>
+
+    <label for="plantId">Plant ID to Delete:</label>
+    <input type="text" id="plantId" name="plantId" required>
+
+    <button type="button" onclick="deletePlant()">Delete Plant</button>
+
+</body>
+</html>

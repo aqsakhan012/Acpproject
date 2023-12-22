@@ -1,0 +1,128 @@
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    #container {
+        max-width: 600px;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    form {
+        display: grid;
+        grid-gap: 15px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    input {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    th {
+        background-color: #4caf50;
+        color: white;
+    }
+</style>
+<html>
+    <body>
+      
+        <div id="container">
+            <h2>Add Plant Information</h2>
+    
+            <form id="addplantsform" action="" method="post">
+                <label for="name">Plant Name:</label>
+                <input type="text" id="name" name="plantName" required>
+    
+                <label for="author">Plant Species:</label>
+                <input type="text" id="author" name="plantSpecie" required>
+    
+                <label for="edition">Watering Schedule:</label>
+                <input type="text" id="edition" name="watering_Schedule" required>
+    
+                <label for="edition">Sunlight Requirement:</label>
+                <input type="text" id="edition" name="sunlight_Requirement" required>
+    
+                <button type="submit">Submit</button>
+            </form>
+</div>
+    </body>
+    <script>
+document.getElementById('addplantsform').addEventListener('submit', function (event) {
+event.preventDefault(); // Prevent the default form submission
+ // Get form data using FormData
+ const formData = new FormData(event.target);
+
+// Create an object in the required format
+const dataObject = {
+    plantName: formData.get('plantName'),
+    plantSpecie: formData.get('plantSpecie'),
+    watering_Schedule: formData.get('watering_Schedule'),
+    sunlight_Requirement: formData.get('sunlight_Requirement')
+
+};
+fetch('http://localhost:8080/plants/addplants', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(dataObject),
+            })
+            .then(response => {
+                // Check if the response status is OK
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                // Since we don't expect a JSON response, return an empty object
+                return {};
+            })
+            .then(data => {
+                console.log('Success:', data);
+                // Handle success, e.g., show a success message to the user
+            })
+            .catch((error) => {
+                console.error('Error:', error.message);
+                // Handle errors, e.g., show an error message to the user
+            });
+
+        });
+    </script>
+</html>

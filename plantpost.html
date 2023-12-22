@@ -1,0 +1,64 @@
+<html>
+    <body>
+      
+        <form id="addplantsform" action="" method="post">
+            <label for="plantname">PlantName:</label>
+            <input type="text" id="name" name="plantName" required>
+    
+            <!-- Text Input -->
+            <label for="plantspecie">PlantSpecie:</label>
+            <input type="text" id="author" name="plantSpecie" required>
+    
+            <!-- Text Input -->
+            <label for="plantswatering">Watering_Schedule:</label>
+            <input type="text" id="edition" name="watering_Schedule" required>
+            <label for="plantssunlight">Edition:</label>
+            <input type="text" id="edition" name="sunlight_Requirement" required>
+            <p id="message"></p>
+            <!-- Submit Button -->
+            <button type="submit">Submit</button>
+        </form>
+
+    </body>
+    <script>
+document.getElementById('addplantsform').addEventListener('submit', function (event) {
+event.preventDefault(); // Prevent the default form submission
+ // Get form data using FormData
+ const formData = new FormData(event.target);
+
+// Create an object in the required format
+const dataObject = {
+    plantName: formData.get('plantName'),
+    plantSpecie: formData.get('plantSpecie'),
+    watering_Schedule: formData.get('watering_Schedule'),
+    sunlight_Requirement: formData.get('sunlight_Requirement')
+
+};
+fetch('http://localhost:8080/plants/addplants', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(dataObject),
+            })
+            .then(response => {
+                // Check if the response status is OK
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                // Since we don't expect a JSON response, return an empty object
+                return {};
+            })
+            .then(data => {
+                console.log('Success:', data);
+                // Handle success, e.g., show a success message to the user
+            })
+            .catch((error) => {
+                console.error('Error:', error.message);
+                // Handle errors, e.g., show an error message to the user
+            });
+
+        });
+    </script>
+</html>

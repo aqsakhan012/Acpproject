@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Plant</title>
+</head>
+
+<body>
+
+    <h2>Update Plant</h2>
+
+    <form id="updateForm">
+        <label for="plantId">Plant ID:</label>
+        <input type="text" id="plantId" name="plantId" required><br>
+
+        <label for="plantName">Plant Name:</label>
+        <input type="text" id="plantName" name="plantName" required><br>
+
+        <label for="plantSpecie">Plant Specie:</label>
+        <input type="text" id="plantSpecie" name="plantSpecie" required><br>
+
+        <label for="wateringSchedule">Watering Schedule:</label>
+        <input type="text" id="wateringSchedule" name="wateringSchedule" required><br>
+
+        <label for="sunlightRequirement">Sunlight Requirement:</label>
+        <input type="text" id="sunlightRequirement" name="sunlightRequirement" required><br>
+
+        <button type="button" onclick="updatePlant()">Update Plant</button>
+    </form>
+
+    <script>
+        function updatePlant() {
+            const plantId = document.getElementById('plantId').value;
+            const plantName = document.getElementById('plantName').value;
+            const plantSpecie = document.getElementById('plantSpecie').value;
+            const wateringSchedule = document.getElementById('wateringSchedule').value;
+            const sunlightRequirement = document.getElementById('sunlightRequirement').value;
+
+            const plantData = {
+                plant_id: plantId,
+                plantName: plantName,
+                plantSpecie: plantSpecie,
+                watering_Schedule: wateringSchedule,
+                sunlight_Requirement: sunlightRequirement
+            };
+
+            fetch(`http://localhost:8080/plants/updateplants/${plantId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(plantData),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(updatedPlant => {
+                console.log('Plant updated successfully:', updatedPlant);
+                // You can perform additional actions here, such as updating the UI
+            })
+            .catch(error => {
+                console.error('Error updating plant:', error);
+            });
+        }
+    </script>
+
+</body>
+
+</html>
+

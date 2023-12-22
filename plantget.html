@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <title>My first website</title>
+        <style>
+            .heading
+            {
+                color: red;
+            }
+        </style>
+    </head>
+    <body>
+        <h3 class="heading">Heelo world</h3>
+        <p>
+            we are integrating apis'
+        </p>
+        <button  onclick="myFunction()">hi click me</button>
+    </body>
+</html>
+<script>
+    function myFunction()
+    {
+        fetch('http://localhost:8080/plants/getplants', {
+  method: 'GET',
+  
+  headers: {
+   
+    
+    // Add any other headers as needed
+  },
+ 
+ 
+})
+
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    // Handle the retrieved data
+    console.log(data);
+  })
+  .catch(error => {
+    console.error('Error during fetch operation:', error);
+  });
+
+        }
+           
+</script>
